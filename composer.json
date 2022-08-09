@@ -1,0 +1,47 @@
+{
+  "name": "elbgoods/nova-mapbox-shape-field",
+  "description": "Show geo shape on a mapbox map with drawing capabilities",
+  "keywords": [
+    "laravel",
+    "nova",
+    "mapbox",
+    "geo"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Max Staack",
+      "email": "mstaack@elbgoods.de",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^7.3|^8.0",
+    "ext-json": "*",
+    "laravel/nova": "^4.1",
+    "mstaack/laravel-postgis": "^5.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Elbgoods\\NovaMapboxShapeField\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Elbgoods\\NovaMapboxShapeField\\FieldServiceProvider"
+      ]
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://nova.laravel.com"
+    }
+  ],
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
