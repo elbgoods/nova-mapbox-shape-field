@@ -16,10 +16,9 @@
     }
   ],
   "require": {
-    "php": "^7.3|^8.0",
+    "php": "^8.0",
     "ext-json": "*",
-    "laravel/nova": "^4.1",
-    "mstaack/laravel-postgis": "^5.4"
+    "laravel/nova": "^4.1"
   },
   "autoload": {
     "psr-4": {

@@ -5,10 +5,6 @@ namespace Elbgoods\NovaMapboxShapeField;
 use Illuminate\Support\Arr;
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use MStaack\LaravelPostgis\Geometries\LineString;
-use MStaack\LaravelPostgis\Geometries\MultiPolygon;
-use MStaack\LaravelPostgis\Geometries\Point;
-use MStaack\LaravelPostgis\Geometries\Polygon;
 
 class MapboxShapeField extends Field
 {
@@ -45,22 +41,18 @@ class MapboxShapeField extends Field
     {
         if ($request->exists($requestAttribute)) {
 
-            // I am a mess, please clean me up :)
             $geoInformation = json_decode($request[$requestAttribute], true, 512, JSON_THROW_ON_ERROR);
 
             if ($coordinates = Arr::get($geoInformation, 'coordinates')) {
-                $collection = new LineString(collect($coordinates[0])->map(
-                    fn (array $pair) => new Point($pair[1], $pair[0])
-                )->toArray());
 
-                $multiPolygon = new MultiPolygon([
-                    new Polygon([$collection]),
-                ]);
+                $points = collect($coordinates[0])->map(
+                    fn(array $pair) => sprintf('%s %s', $pair[0], $pair[1])
+                )->implode(', ');
 
-                $model->{$attribute} = $multiPolygon->toWKT();
+                $model->{$attribute} = sprintf('POLYGON ((%s))', $points);
             }
 
-            if ($location = Arr::get($geoInformation, 'location')) {
+            if (($location = Arr::get($geoInformation, 'location')) && method_exists($model, 'setLocation')) {
                 $model->setLocation(
                     (float) $location['lat'],
                     (float) $location['lng'],
